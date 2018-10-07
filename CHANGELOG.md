@@ -1,6 +1,108 @@
 # Change Log
 Any notable changes to this project will be documented in this file.
 
+## 0.8.2
+
+### Bug Fixes:
+[Issue #119](https://github.com/huri000/SwiftEntryKit/issues/119) - Entry tap gesture doesn't cancel touches inside the entry view. 
+
+## 0.8.1
+
+Apply a necessary fix for Xcode 10 and older than 4.2 Swift version compatibility.
+
+## 0.8.0
+
+### Enhancements
+
+Adjustments for Swift 4.2. 
+
+Related Issue: [Swift 4.2 Support #108](https://github.com/huri000/SwiftEntryKit/issues/108)
+
+## 0.7.2
+
+### Bug Fixes
+
+[numberOfLines property #111](https://github.com/huri000/SwiftEntryKit/issues/111) - Allow multiple lines in image notes.
+
+## 0.7.1
+
+### Feature - Add a way to make a specific text field first responder in `EKFormMessageView`
+
+Related issue: [Best way to present keyboard #107](https://github.com/huri000/SwiftEntryKit/issues/107).
+The window must be a key window, so setting `presentInsideKeyWindow` to `true` is necessary to achieve that goal. Likewise:
+
+```Swift
+SwiftEntryKit.display(entry: formMessageView, using: attributes, presentInsideKeyWindow: true)
+```
+
+It is recommended to set `lifecycleEvents.didAppear` to  perform the keyboard showing action. For example:
+
+```Swift
+attributes.lifecycleEvents.didAppear = {
+    formMessageView.becomeFirstResponder(with: 0)
+}
+```
+
+## 0.7.0
+
+### Feature - Queue of Entries
+
+`displayPriority` is no longer nested inside `EKAttributes`. It has been replaced by another construct called `precedence`.
+`precedence` defines the manner in which a new entry is treated in case there already is another displayed entry. 
+
+- See [Issue #103](https://github.com/huri000/SwiftEntryKit/issues/103) for feature basic requirements.
+- Please review the README.md and the API documentation to gain additional information.
+
+#### Backward Compatibility
+
+Be aware that `0.7.0` breaks previous releases.
+In order to adjust previous usage to current behavior, just replace any instance of:
+
+```Swift
+attributes.displayPriority = value
+````
+To the following:
+
+```Swift
+attributes.precedence = .override(priority: value, dropEnqueuedEntries: false)
+````
+
+## 0.6.1
+
+### Adjustments for Xcode 10.
+
+## 0.6.0
+
+### Autorotation flag for entries - [pull-request](https://github.com/huri000/SwiftEntryKit/pull/80)
+### Additional documentation in README.md.
+
+## 0.5.9
+
+### Issue [#85](https://github.com/huri000/SwiftEntryKit/pull/86)
+Lifecycle event `willDisappear` does not get called on swipe and prompt removeal of entry.
+
+## 0.5.8
+
+### Issues Resolved:
+
+#### Allow injecting content into text field in form entry preset
+[How to set the value (not placeholder) to textfield for Forms preset? #79](https://github.com/huri000/SwiftEntryKit/issues/79)
+
+To support text injection to `EKTextField`, some minor changes have been done:
+1. `EKTextField`'s `text` property has a setter now.
+2. `TextFieldContent`'s `output` has been changed to `textContent` and has a setter now.
+3. `outputWrapper` - changed to `contentWrapper`.
+
+## 0.5.7
+
+### Changes:
+
+Dismiss entries using `touchesEnded` instead of `touchesBegan`. 
+
+### Issues Fixed
+
+[Deployment target is 9.3, not 9.0 #78](https://github.com/huri000/SwiftEntryKit/issues/78)
+
 ## 0.5.6
 
 ### Bug Fixes:
